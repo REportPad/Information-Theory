@@ -1,11 +1,14 @@
 #include <stdio.h>
 #include <math.h>
 
-double ConditionalEntropy(double p[][4], int n, int m){
+//H(X|Y)=H(X,Y)-H(Y)
+double ConditionalEntropy(double pxy[][4], double *py, int n, int m){
     double Ixy=0;
     int i=0;
+
     for(i=0; i < n; i++)
-        Ixy += JointEntropy(p, n, m) - Entropy(py, n);
+        Ixy += JointEntropy(pxy, n, m) - Entropy(py, n);
 
     return I;
 }
+
