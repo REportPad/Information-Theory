@@ -1,12 +1,12 @@
 #include<stdio.h>
 #include<math.h>
 
-double JointEntropy(double p[][4], int n, int m) {
-	int i = 0, j=0;
+double JointEntropy(double **p, int Nx, int Ny) {
+	int i = 0, j = 0;
 	double H = 0;
 
-	for (i = 0; i < n; i++) {
-		for (j = 0; j < m; j++) {
+	for (i = 0; i < Nx; i++) {
+		for (j = 0; j < Ny; j++) {
 			if (p[i][j] == 0) continue;
 			H += p[i][j] * log2(p[i][j]);
 		}
@@ -16,16 +16,25 @@ double JointEntropy(double p[][4], int n, int m) {
 }
 
 
-int main(){
-	double p[4][4] = {
-		{0.125, 0.0625, 0.03125, 0.03125 },
-	{ 0.0625, 0.125, 0.03125, 0.03125 },
-	{ 0.0625, 0.0625, 0.0625, 0.0625 },
-	{ 0.25, 0, 0, 0 } };
+int main() {
+	double Pxy[][2] = {
+		{0.1, 0.9},//X
+		{0.2, 0.8} //Y
+	};
 
-	double h = JointEntropy(p, 4, 4);
+	int height = 2, width = 2;
+	int i = 0;
+	double **arr = (double**)malloc(sizeof(double*) * height);
+	for (i = 0; i < height; i++) {
+		arr[i] = (double*)malloc(sizeof(double) * width);
+		memcpy(arr[i], Pxy[i], width*sizeof(double) );
+	}
+	
+	double H = JointEntropy(arr, height, width);
 
-	printf("H=%f\r\n", h);
+	printf("H = %f\r\n", H);
 
-    return 0;
+	free(arr[0]);
+	free(arr);
+	return 0;
 }
