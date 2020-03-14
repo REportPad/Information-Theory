@@ -26,9 +26,9 @@ int main() {
 		memcpy(arr[i], Pxy[i], width*sizeof(double) );
 	}
 	
-	double H = ConditionalEntropy(arr, py, height, width);
+	double Hxy = ConditionalEntropy(arr, py, height, width);
 
-	printf("H = %f\r\n", H);
+	printf("Hxy = %f\r\n", Hxy);
 
 	free(arr[0]);
 	free(arr);
