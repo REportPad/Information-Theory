@@ -2,13 +2,35 @@
 #include <math.h>
 
 //H(X|Y)=H(X,Y)-H(Y)
-double ConditionalEntropy(double pxy[][4], double *py, int n, int m){
-    double Ixy=0;
-    int i=0;
+double ConditionalEntropy(double **p, double *py, int Nx, int Ny) {
+	double Ixy = 0;
+	
+	Ixy = JointEntropy(p, Nx, Ny) - Entropy(py, Ny);
 
-    for(i=0; i < n; i++)
-        Ixy += JointEntropy(pxy, n, m) - Entropy(py, n);
-
-    return I;
+	return Ixy;
 }
 
+
+int main() {
+	double Pxy[][2] = {
+		{0.1, 0.9},//X
+		{0.2, 0.8} //Y
+	};
+	double *py = Pxy[1];
+
+	int height = 2, width = 2;
+	int i = 0;
+	double **arr = (double**)malloc(sizeof(double*) * height);
+	for (i = 0; i < height; i++) {
+		arr[i] = (double*)malloc(sizeof(double) * width);
+		memcpy(arr[i], Pxy[i], width*sizeof(double) );
+	}
+	
+	double H = ConditionalEntropy(arr, py, height, width);
+
+	printf("H = %f\r\n", H);
+
+	free(arr[0]);
+	free(arr);
+	return 0;
+}
